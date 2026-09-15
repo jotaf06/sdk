@@ -1,3 +1,19 @@
 menu "ZBook Interface - Protocols"
 
+    menu "Zbook SPI Protocol"
+        config ZBOOK_SPI
+            bool "ZBook SPI protocol interface"
+            select SPI
+            default y
+            help
+                Enable zbook_spi_init/write/read, a pure-C passthrough over the
+                Zephyr SPI driver bound to the zbook_spi devicetree node.
+
+        if ZBOOK_SPI
+            module = ZBOOK_SPI
+            module-str = "zbook spi"
+            source "subsys/logging/Kconfig.template.log_config"
+        endif # ZBOOK_SPI
+    endmenu
+
 endmenu
