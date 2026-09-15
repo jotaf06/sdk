@@ -1,3 +1,33 @@
 menu "ZBook Interface - Actuators"
 
+    menu "Zbook Buzzer Actuator"
+        config ZBOOK_BUZZER
+            bool "ZBook buzzer actuator interface"
+            select PWM
+            default y
+            help
+                Enable zbook_buzzer_init/on/off/set_volume/set_frequency/
+                beep_ms/beep_repeated/beep/beep_full, a pure-C passthrough
+                over the Zephyr PWM driver bound to the pwm-buzzer
+                devicetree alias's underlying PWM channel.
+
+        if ZBOOK_BUZZER
+            config ZBOOK_BUZZER_BEEP_DURATION_SHORT_MS
+                int "Short beep duration (ms)"
+                default 50
+
+            config ZBOOK_BUZZER_BEEP_DURATION_NORMAL_MS
+                int "Normal beep duration (ms)"
+                default 150
+
+            config ZBOOK_BUZZER_BEEP_DURATION_LONG_MS
+                int "Long beep duration (ms)"
+                default 400
+
+            module = ZBOOK_BUZZER
+            module-str = "zbook buzzer"
+            source "subsys/logging/Kconfig.template.log_config"
+        endif # ZBOOK_BUZZER
+    endmenu
+
 endmenu
