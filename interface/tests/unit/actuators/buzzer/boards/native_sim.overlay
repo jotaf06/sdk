@@ -1,0 +1,22 @@
+#include <zephyr/dt-bindings/pwm/pwm.h>
+
+/ {
+	fake_pwm0: fake-pwm0 {
+		compatible = "zephyr,fake-pwm";
+		status = "okay";
+		#pwm-cells = <2>;
+		frequency = <1000000000>;
+	};
+
+	pwm_outputs {
+		compatible = "pwm-leds";
+
+		pwm_buzzer: pwm_buzzer_node {
+			pwms = <&fake_pwm0 0 PWM_USEC(500) PWM_POLARITY_NORMAL>;
+		};
+	};
+
+	aliases {
+		pwm-buzzer = &pwm_buzzer;
+	};
+};

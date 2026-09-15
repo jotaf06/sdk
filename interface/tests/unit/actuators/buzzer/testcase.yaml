@@ -1,0 +1,8 @@
+tests:
+  interface.actuators.buzzer:
+    tags:
+      - interface
+      - actuators
+      - buzzer
+    platform_allow:
+      - native_sim
