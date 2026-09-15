@@ -1,0 +1,18 @@
+sample:
+  name: ZBook SPI ping-pong (master)
+  description: >
+    Bring-up sample that sends "PING" every 3 seconds over spi1's second
+    chip-select and checks the reply against "PONG". Needs the slave app in
+    samples/spi_pingpong/rp2350a_slave/ running on a second board wired to
+    the same lines -- not something twister can assert on its own, hence
+    build_only below.
+tests:
+  sample.protocols.spi_pingpong.master:
+    tags:
+      - samples
+      - interface
+      - protocols
+      - spi
+    platform_allow:
+      - zbook@p2/rp2350b/m33
+    build_only: true

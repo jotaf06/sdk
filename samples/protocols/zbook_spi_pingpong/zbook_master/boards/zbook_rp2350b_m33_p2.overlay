@@ -1,0 +1,29 @@
+/*
+ * P2-revision overlay for the spi_pingpong master sample.
+ *
+ * spi1 already carries the onboard BMI323 accelerometer (bmi323@0, CS on
+ * GPIO09). Rather than displacing it, this overlay adds zbook_spi as a
+ * second device on the SAME bus with its OWN chip-select: cs-gpios on an
+ * SPI bus node is a list, and each child's `reg` indexes into it, so two
+ * devices can share SCK/MOSI/MISO and only take turns on CS.
+ *
+ * The new CS (GPIO39, header H1 pin 10) is a spare pin -- grep confirms
+ * it's unused anywhere else in zbook_rp2350b_m33_p2-common.dtsi. GPIO39 is
+ * &gpio0_hi 7 (gpio0_hi is the +32 GPIO bank: 32 + 7 = 39), matching the
+ * `GPIO37 = SD_CS` / `GPIO09 = SPI_ACCEL_CS` comment style already used in
+ * the board file for the other cs-gpios entries.
+ *
+ * The onboard accelerometer keeps working: this only adds a second device,
+ * it doesn't touch bmi323's node or its cs-gpios[0] entry.
+ */
+
+&spi1 {
+	cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>,    /* index 0: GPIO09 = SPI_ACCEL_CS, BMI323 */
+		   <&gpio0_hi 7 GPIO_ACTIVE_LOW>;  /* index 1: GPIO39 = SPI_PINGPONG_CS */
+
+	zbook_spi: zbook_spi@1 {
+		compatible = "zbook,spi-pingpong";
+		reg = <1>;
+		spi-max-frequency = <1000000>;
+	};
+};

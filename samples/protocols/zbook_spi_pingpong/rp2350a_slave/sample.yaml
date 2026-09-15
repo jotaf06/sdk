@@ -1,0 +1,17 @@
+sample:
+  name: ZBook SPI ping-pong (RP2350A slave)
+  description: >
+    Pure-Zephyr GPIO bit-bang SPI slave for a second board (RP2350A devkit)
+    that answers "PONG" to every 4-byte frame it receives. Pairs with
+    samples/spi_pingpong/zbook_master/ running on the zbook board -- not
+    something twister can assert on its own, hence build_only below. Not
+    part of interface/ and never links against it.
+tests:
+  sample.protocols.spi_pingpong.rp2350a_slave:
+    tags:
+      - samples
+      - protocols
+      - spi
+    platform_allow:
+      - rpi_pico2/rp2350a/m33
+    build_only: true

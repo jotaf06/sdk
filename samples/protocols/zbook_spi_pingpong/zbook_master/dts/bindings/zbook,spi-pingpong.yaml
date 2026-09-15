@@ -1,0 +1,7 @@
+description: ZBook SPI ping-pong bring-up sample device (no real Zephyr driver --
+  placeholder child node so zbook_spi can get a spi_dt_spec addressing the second
+  CS line on spi1, alongside the onboard BMI323 on the first)
+
+compatible: "zbook,spi-pingpong"
+
+include: spi-device.yaml
