@@ -1,0 +1,8 @@
+tests:
+  interface.protocols.spi:
+    tags:
+      - interface
+      - protocols
+      - spi
+    platform_allow:
+      - native_sim

@@ -1,0 +1,5 @@
+description: ZBook SPI loopback emulator (unit test only)
+
+compatible: "zbook,spi-loopback-emul"
+
+include: spi-device.yaml
