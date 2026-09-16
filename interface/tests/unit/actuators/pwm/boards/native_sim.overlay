@@ -1,0 +1,24 @@
+#include <zephyr/dt-bindings/pwm/pwm.h>
+
+/ {
+	fake_pwm0: fake-pwm0 {
+		compatible = "zephyr,fake-pwm";
+		status = "okay";
+		#pwm-cells = <2>;
+		frequency = <1000000000>;
+	};
+
+	zbook_pwm_channels: zbook-pwm-channels {
+		compatible = "pwm-leds";
+
+		zbook_pwm_test_a: zbook-pwm-test-a {
+			label = "test_a";
+			pwms = <&fake_pwm0 0 PWM_USEC(1000)>;
+		};
+
+		zbook_pwm_test_b: zbook-pwm-test-b {
+			label = "test_b";
+			pwms = <&fake_pwm0 1 PWM_USEC(2000)>;
+		};
+	};
+};
