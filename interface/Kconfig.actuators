@@ -1,3 +1,22 @@
 menu "ZBook Interface - Actuators"
 
+    menu "Zbook PWM Actuator"
+        config ZBOOK_PWM
+            bool "ZBook generic PWM output interface"
+            select PWM
+            default y
+            help
+                Enable zbook_pwm_init/start/stop/set_cfg/get_cfg, a pure-C
+                passthrough over the Zephyr PWM driver bound to however many
+                children the active overlay's "zbook_pwm_channels" node (a
+                "pwm-leds" node) defines, each addressed at runtime by its
+                own "label" string.
+
+        if ZBOOK_PWM
+            module = ZBOOK_PWM
+            module-str = "zbook pwm"
+            source "subsys/logging/Kconfig.template.log_config"
+        endif # ZBOOK_PWM
+    endmenu
+
 endmenu
