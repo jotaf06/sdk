@@ -1,0 +1,32 @@
+/*
+ * Header pin 5 (GPIO01, PWM slice 0 channel B) is one of the GPIO Header's
+ * free/general-purpose pins -- not muxed to PWM by the board itself, since
+ * zbook_pwm channels are picked per-firmware, not fixed by the board module.
+ * Wire an LED (+ current-limiting resistor) between this pin and GND.
+ */
+#include <zephyr/dt-bindings/pwm/pwm.h>
+#include <zephyr/dt-bindings/pinctrl/rpi-pico-rp2350b-pinctrl.h>
+
+&pinctrl {
+	pwm_dimmer_default: pwm_dimmer_default {
+		group1 {
+			pinmux = <PWM_0B_P1>;
+		};
+	};
+};
+
+&pwm {
+	pinctrl-0 = <&pwm_default>, <&pwm_dimmer_default>;
+	pinctrl-names = "default";
+};
+
+/ {
+	zbook_pwm_channels: zbook-pwm-channels {
+		compatible = "pwm-leds";
+
+		dimmer: dimmer {
+			label = "dimmer";
+			pwms = <&pwm 1 PWM_USEC(20000) PWM_POLARITY_NORMAL>;
+		};
+	};
+};

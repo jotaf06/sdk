@@ -1,0 +1,16 @@
+sample:
+  name: ZBook PWM shell
+  description: >
+    Bring-up sample exposing a zbook generic PWM channel (start/stop/set/get,
+    addressed by label) as shell commands, for manually validating a
+    PWM-capable header pin on real P2 hardware over the console.
+tests:
+  sample.actuators.pwm:
+    tags:
+      - samples
+      - interface
+      - actuators
+      - pwm
+    platform_allow:
+      - zbook@p2/rp2350b/m33
+    build_only: true
