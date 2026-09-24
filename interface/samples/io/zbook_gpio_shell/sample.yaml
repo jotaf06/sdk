@@ -1,0 +1,19 @@
+sample:
+  name: ZBook GPIO shell
+  description: >
+    Bring-up sample exposing a zbook generic GPIO channel (init/configure/
+    write/read/watch, addressed by label) as shell commands, for manually
+    validating a GPIO-capable header pin on real P2 hardware over the
+    console.
+tests:
+  sample.io.gpio:
+    tags:
+      - samples
+      - interface
+      - io
+      - gpio
+    platform_allow:
+      - zbook@p2/rp2350b/m33
+    required_snippets:
+      - zbook-sdk
+    build_only: true
