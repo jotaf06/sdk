@@ -66,6 +66,26 @@ menu "ZBook Interface - I/O"
 
   endmenu
 
+  menu "Zbook Interface - Header GPIO"
+    depends on ZBOOK_INTERFACE_IO
+
+    config ZBOOK_INTERFACE_IO_GPIO
+        bool "ZBook generic digital GPIO interface"
+        select GPIO
+        default y
+        help
+            Enable zbook_gpio_init/configure/write/read/set_callback, a
+            pure-C passthrough over the Zephyr GPIO driver bound to the
+            "zbook_gpio_channels" node (a "gpio-leds" node) shipped by
+            the "zbook-sdk" snippet, each channel addressed by its
+            "enum zbook_gpio_io" value. Unlike ZBOOK_PWM, no
+            PINCTRL_DYNAMIC dependency: the rp2350 GPIO driver re-muxes
+            a pin to SIO on every gpio_pin_configure(), so init()/
+            configure() always reclaim the physical pin regardless of
+            what peripheral used it last.
+
+    endmenu
+
 endmenu
 
 if ZBOOK_INTERFACE_IO_PINS
@@ -79,3 +99,10 @@ if ZBOOK_INTERFACE_IO_BTN
 	module-str = btn
 	source "subsys/logging/Kconfig.template.log_config"
 endif
+
+if ZBOOK_INTERFACE_IO_GPIO
+  module = ZBOOK_GPIO
+  module-str = "zbook gpio"
+  source "subsys/logging/Kconfig.template.log_config"
+endif # ZBOOK_GPIO
+      
