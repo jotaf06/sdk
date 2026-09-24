@@ -1,0 +1,8 @@
+tests:
+  interface.io.gpio:
+    tags:
+      - interface
+      - io
+      - gpio
+    platform_allow:
+      - native_sim

@@ -1,0 +1,22 @@
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+&gpio0 {
+	ngpios = <2>;
+};
+
+/ {
+	zbook_gpio_channels: zbook-gpio-channels {
+		compatible = "gpio-keys";
+		debounce-interval-ms = <20>;
+
+		zbook_gpio_test_a: zbook-gpio-test-a {
+			label = "test_a";
+			gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		zbook_gpio_test_b: zbook-gpio-test-b {
+			label = "test_b";
+			gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
