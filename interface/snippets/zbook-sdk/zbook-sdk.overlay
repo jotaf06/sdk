@@ -1,0 +1,44 @@
+/*
+ * interface/'s own devicetree extension, applied via the "zbook-sdk" snippet
+ * (-S zbook-sdk) -- consumers never write devicetree themselves.
+ *
+ * zbook_gpio_channels reuses the mainline "gpio-keys" compatible purely for
+ * its typed "gpios" child property and its "debounce-interval-ms" property
+ * (GPIO_DT_SPEC_GET/DT_PROP in zbook_gpio.c) -- the input subsystem/driver
+ * is never enabled (see zbook_gpio.c). Unlike zbook_pwm, no dedicated
+ * pinctrl state is needed: the rp2350 GPIO driver re-muxes a pin to SIO on
+ * every gpio_pin_configure(), so zbook_gpio_init() always reclaims the
+ * physical pin regardless of what peripheral used it last.
+ *
+ * Children must stay in the same order as "enum zbook_gpio_io"
+ * (zbook_gpio.h) -- that positional match is how zbook_gpio.c ties a
+ * channel to its pin, no DT "label" involved.
+ */
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+	zbook_gpio_channels: zbook-gpio-channels {
+		compatible = "gpio-keys";
+		debounce-interval-ms = <30>;
+
+		gpio_io01: gpio-io01 {
+			label = "IO01";
+			gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>; /* GPIO01 */
+		};
+
+		gpio_io39: gpio-io39 {
+			label = "IO39";
+			gpios = <&gpio0_hi 7 GPIO_ACTIVE_HIGH>; /* GPIO39 */
+		};
+
+		gpio_io45: gpio-io45 {
+			label = "IO45";
+			gpios = <&gpio0_hi 13 GPIO_ACTIVE_HIGH>; /* GPIO45 */
+		};
+
+		gpio_io46: gpio-io46 {
+			label = "IO46";
+			gpios = <&gpio0_hi 14 GPIO_ACTIVE_HIGH>; /* GPIO46 */
+		};
+	};
+};
